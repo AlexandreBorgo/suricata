@@ -61,6 +61,7 @@
 #include "app-layer-enip.h"
 #include "app-layer-dnp3.h"
 #include "app-layer-template.h"
+#include "app-layer-irc.h"
 
 #include "conf.h"
 #include "util-spm.h"
@@ -1246,6 +1247,7 @@ void AppLayerParserRegisterProtocolParsers(void)
     RegisterDCERPCParsers();
     RegisterDCERPCUDPParsers();
     RegisterFTPParsers();
+    RegisterIRCParsers();
     RegisterSSHParsers();
     RegisterSMTPParsers();
     RegisterDNSUDPParsers();

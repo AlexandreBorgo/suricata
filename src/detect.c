@@ -2018,6 +2018,10 @@ PacketCreateMask(Packet *p, SignatureMask *mask, AppProto alproto,
                     SCLogDebug("packet/flow has template state");
                     (*mask) |= SIG_MASK_REQUIRE_TEMPLATE_STATE;
                     break;
+                case ALPROTO_IRC:
+                    SCLogDebug("packet/flow has irc state");
+                    (*mask) |= SIG_MASK_REQUIRE_IRC_STATE;
+                    break;
                 default:
                     SCLogDebug("packet/flow has other state");
                     break;
@@ -2155,6 +2159,10 @@ static int SignatureCreateMask(Signature *s)
         s->mask |= SIG_MASK_REQUIRE_TEMPLATE_STATE;
         SCLogDebug("sig requires template state");
     }
+    if (s->alproto == ALPROTO_IRC) {
+        s->mask |= SIG_MASK_REQUIRE_IRC_STATE;
+        SCLogDebug("sig requires irc state");
+    }
 
     if ((s->mask & SIG_MASK_REQUIRE_DCE_STATE) ||
         (s->mask & SIG_MASK_REQUIRE_HTTP_STATE) ||
@@ -2165,6 +2173,7 @@ static int SignatureCreateMask(Signature *s)
         (s->mask & SIG_MASK_REQUIRE_SMTP_STATE) ||
         (s->mask & SIG_MASK_REQUIRE_ENIP_STATE) ||
         (s->mask & SIG_MASK_REQUIRE_TEMPLATE_STATE) ||
+        (s->mask & SIG_MASK_REQUIRE_IRC_STATE) ||
         (s->mask & SIG_MASK_REQUIRE_TLS_STATE))
     {
         s->mask |= SIG_MASK_REQUIRE_FLOW;
